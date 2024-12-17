@@ -11,6 +11,7 @@ void setup() {
 void loop() {
   int reading = digitalRead(SENSOR_PIN);
 
+
   if(reading == HIGH){
     makeSound(BUZZER_PIN);  // Turn on the buzzer
   }else{
