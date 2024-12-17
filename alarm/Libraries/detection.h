@@ -3,4 +3,6 @@
 
 void makeSound();
 
+void say();
+
 #endif

@@ -1,4 +1,5 @@
 #define SENSOR_PIN 4
+#define BUZZER_PIN 7
 #include "Libraries/detection.h"
 
 void setup() {
@@ -10,8 +11,7 @@ void loop() {
   int reading = digitalRead(SENSOR_PIN);
 
   if(reading == HIGH){
-    //Turn on buzzer
-    makeSound();
+    say();  // Turn on the buzzer
   }else{
     // Turn off buzzer
   }
