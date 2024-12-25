@@ -19,7 +19,7 @@ void setup() {
 }
 
 bool armed = false;
-String key = "";
+String key = "#";
 
 void loop() {
   int reading = digitalRead(SENSOR_PIN);
@@ -47,11 +47,16 @@ void loop() {
           }
         }
       }else if(bluetooth.readString() == key){
-        Serial.println("THE ALARM WAS TURNED ON");
+        armed = true;
       }else{
         Serial.println("You gave me a wrong key...");
       }
     }
+  }else{
+     Serial.println("THE ALARM WAS TURNED ON");
+     if(bluetooth.available()){
+      Serial.print(bluetooth.read());
+     }
   }
 
 /*  if(reading == HIGH){
