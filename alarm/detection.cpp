@@ -11,3 +11,7 @@ void stopSound(int pin){
   noTone(pin);
   Serial.println("NOOOO");
 }
+
+/*bool detectSomeone(){
+  return digitalRead(SENSOR_PIN) == HIGH;
+}*/
