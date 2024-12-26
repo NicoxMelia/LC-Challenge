@@ -20,9 +20,20 @@ void setup() {
 
 bool armed = false;
 String key = "1234";
+String btkey;
+bool isFirstTime = true;
+
+void checkKeypad(){
+  while(true){
+    if(bluetooth.available()){
+      btkey = bluetooth.readString();
+      break;
+    }
+  }
+}
 
 void loop() {
-  int reading = digitalRead(SENSOR_PIN);
+  //int reading = digitalRead(SENSOR_PIN);
 
   /*if(Serial.available()){
     bluetooth.write(Serial.read());
@@ -32,39 +43,31 @@ void loop() {
     Serial.write(bluetooth.read());
   }*/
 
+  while(isFirstTime){
+    Serial.println("\nBeing the first time of you using this product, set the password please");
+    checkKeypad();
+    key = btkey;
+    Serial.println("Thanks for giving me the password");
+    isFirstTime = false;
+  }
+
   if(!armed){
     Serial.println("Put the pswd please...");
     //Serial.println("The correct pswd is " + key);
-    if(bluetooth.available()){
-      
-      String btKey = bluetooth.readString();
-
-      if(btKey == "1234"){
-        Serial.println("Please, change your pswd now!");
-        Serial.println("I'm waiting for the new pswd...");
-        while (true) {
-          if(bluetooth.available()){
-            key = bluetooth.readString();
-            Serial.println("Thanks for giving me the new psw!");
-            break;
-          }
-        }
-      }else if(btKey == key){
-        armed = true;
-      }else{
-        Serial.println("You gave me a wrong key...");
-        Serial.println(btKey);
-      }
+    checkKeypad();
+    if(btkey == key){
+      armed = !armed;
+    }else{
+      Serial.println("Incorrect password");
     }
+
   }else{
      Serial.println("THE ALARM WAS TURNED ON");
-     if(bluetooth.available()){
-      String btKey = bluetooth.readString();
-      if(btKey == key){
-        armed = !armed;
-      }else{
-        Serial.print("You gave me a wrong key");
-      }
+     checkKeypad();
+     if(btkey == key){
+      armed = !armed;
+     }else{
+       Serial.println("Incorrect password");
      }
   }
 
