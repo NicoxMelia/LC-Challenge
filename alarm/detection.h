@@ -3,5 +3,6 @@
 
 void makeSound(int pin);
 void stopSound(int pin);
+//bool detectSomeone();
 
 #endif
