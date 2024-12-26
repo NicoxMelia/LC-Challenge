@@ -13,13 +13,13 @@ void setup() {
   pinMode(7, OUTPUT);
   pinMode(13, OUTPUT);
   Serial.begin(9600);
-  bluetooth.begin(38400);
+  bluetooth.begin(9600);
   digitalWrite(13, LOW);
   digitalWrite(7, HIGH);
 }
 
 bool armed = false;
-String key = "#";
+String key = "1234";
 
 void loop() {
   int reading = digitalRead(SENSOR_PIN);
@@ -34,9 +34,12 @@ void loop() {
 
   if(!armed){
     Serial.println("Put the pswd please...");
+    //Serial.println("The correct pswd is " + key);
     if(bluetooth.available()){
       
-      if(bluetooth.readString() == "1234"){
+      String btKey = bluetooth.readString();
+
+      if(btKey == "1234"){
         Serial.println("Please, change your pswd now!");
         Serial.println("I'm waiting for the new pswd...");
         while (true) {
@@ -46,16 +49,22 @@ void loop() {
             break;
           }
         }
-      }else if(bluetooth.readString() == key){
+      }else if(btKey == key){
         armed = true;
       }else{
         Serial.println("You gave me a wrong key...");
+        Serial.println(btKey);
       }
     }
   }else{
      Serial.println("THE ALARM WAS TURNED ON");
      if(bluetooth.available()){
-      Serial.print(bluetooth.read());
+      String btKey = bluetooth.readString();
+      if(btKey == key){
+        armed = !armed;
+      }else{
+        Serial.print("You gave me a wrong key");
+      }
      }
   }
 

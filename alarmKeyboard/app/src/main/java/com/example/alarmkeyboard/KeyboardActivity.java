@@ -2,6 +2,7 @@ package com.example.alarmkeyboard;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +15,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 public class KeyboardActivity extends AppCompatActivity {
 
     private String key = "";
     private TextView txtKey;
     private int[] keyboard;
     private Button btnClear, btnOk;
+
+    private BluetoothSocket socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public class KeyboardActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
 
         txtKey = findViewById(R.id.txtKey);
         btnOk = findViewById(R.id.btn_submit);
@@ -65,6 +73,15 @@ public class KeyboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //send Key to arduino
+                try{
+                    socket = BluetoothSettings.getInstance().getBluetoothSocket();
+                    OutputStream msg = socket.getOutputStream();
+                    msg.write(key.getBytes());
+                    key = "";
+                    txtKey.setText("Key: " + key);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 

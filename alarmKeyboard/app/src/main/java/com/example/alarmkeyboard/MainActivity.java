@@ -7,12 +7,7 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -22,11 +17,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
+import com.example.alarmkeyboard.BluetoothSettings;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothSocket btSocket;
     private String deviceName, deviceMAC;
     private BluetoothDevice hc05;
+
     private static final UUID HC05_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 
@@ -66,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
            findDevice();
            connectBluetooth();
            Intent startKeyboard = new Intent(this, KeyboardActivity.class);
-           startKeyboard.putExtra("bt-socket", btSocket.isConnected());
            startActivity(startKeyboard);
        }
 
@@ -104,16 +99,11 @@ public class MainActivity extends AppCompatActivity {
         }
         try {
             btSocket = hc05.createRfcommSocketToServiceRecord(HC05_UUID);
-            btSocket.connect();
+            BluetoothSettings.getInstance().setBluetoothSocket(btSocket);
+            BluetoothSettings.getInstance().getBluetoothSocket().connect();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        try{
-            OutputStream msg = btSocket.getOutputStream();
-            msg.write("1234".getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
