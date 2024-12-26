@@ -23,6 +23,7 @@ String key = "1234";
 String btkey;
 bool isFirstTime = true;
 
+
 void checkKeypad(){
   while(true){
     if(bluetooth.available()){
@@ -30,6 +31,10 @@ void checkKeypad(){
       break;
     }
   }
+}
+
+bool detectSomeone(){
+  return digitalRead(SENSOR_PIN) == HIGH;
 }
 
 void loop() {
@@ -63,12 +68,19 @@ void loop() {
 
   }else{
      Serial.println("THE ALARM WAS TURNED ON");
-     checkKeypad();
-     if(btkey == key){
-      armed = !armed;
-     }else{
-       Serial.println("Incorrect password");
+     if(detectSomeone()){
+      makeSound(BUZZER_PIN);
      }
+     if(bluetooth.available()){
+          btkey = bluetooth.readString();
+          if(btkey == key){
+            armed = !armed;
+            stopSound(BUZZER_PIN);
+        }else{
+          Serial.println("Incorrect password");
+        }
+     }
+
   }
 
 /*  if(reading == HIGH){
