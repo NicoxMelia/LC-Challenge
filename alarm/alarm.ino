@@ -2,7 +2,6 @@
 #define BUZZER_PIN 9
 #define RX 10
 #define TX 11
-#include "detection.h"
 #include "alarmclass.h"
 
 Alarm alarm(SENSOR_PIN, BUZZER_PIN, RX, TX);
@@ -32,6 +31,7 @@ void loop() {
   }
 
   if(!alarm.isArmed()){
+    alarm.stopSound();
     Serial.println("Put the pswd please...");
     alarm.printSingleRow("ALARM DISABLED");
     if(alarm.hasReceivedKey()){

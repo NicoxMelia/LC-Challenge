@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -80,7 +81,13 @@ public class KeyboardActivity extends AppCompatActivity {
                     key = "";
                     txtKey.setText("Key: " + key);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    //throw new RuntimeException(e);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    builder.setTitle("Error");
+                    builder.setMessage("This keyboard is not connected");
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+
                 }
             }
         });
