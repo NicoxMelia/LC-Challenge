@@ -39,7 +39,6 @@ This project consists of an Arduino-based alarm that can be controlled via an An
 ### Public Methods
 
 - **`Alarm(int sensorPin, int buzzerPin, int rx, int tx)`**: Constructor that initializes the sensor, buzzer, and Bluetooth pins.
-- **`~Alarm()`**: Destructor that frees dynamically allocated memory.
 - **`void setupPinMode()`**: Configures the pin modes for the sensor, buzzer, and other necessary pins.
 - **`void setupDisplay()`**: Configures the LCD display.
 - **`void setupBluetooth()`**: Configures Bluetooth communication.
