@@ -32,6 +32,7 @@ void loop() {
   }
 
   if(!alarm.isArmed()){
+    alarm.stopSound();
     Serial.println("Put the pswd please...");
     alarm.printSingleRow("ALARM DISABLED");
     if(alarm.hasReceivedKey()){

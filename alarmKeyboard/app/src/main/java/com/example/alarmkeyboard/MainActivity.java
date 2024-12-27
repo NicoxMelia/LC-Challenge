@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
@@ -102,7 +103,13 @@ public class MainActivity extends AppCompatActivity {
             BluetoothSettings.getInstance().setBluetoothSocket(btSocket);
             BluetoothSettings.getInstance().getBluetoothSocket().connect();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            Toast.makeText(getApplicationContext(), "##", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+            builder.setTitle("Error");
+            builder.setMessage("This keyboard is not connected");
+            builder.setPositiveButton("OK", null);
+            builder.show();
         }
 
     }

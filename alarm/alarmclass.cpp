@@ -15,7 +15,7 @@ Alarm::Alarm(int sensorPin, int buzzerPin, int rx, int tx){
 
 void Alarm::setupPinMode(){
     pinMode(sensorPin, INPUT);
-    pinMode(sensorPin, OUTPUT);
+    pinMode(buzzerPin, OUTPUT);
     pinMode(13, OUTPUT);
 }
 
